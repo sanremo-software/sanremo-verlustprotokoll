@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produktions- und Lieferprotokoll – Eisbecher</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#e5e5e5;font-family:Georgia,'Times New Roman',serif;color:#111}
+    .app{max-width:900px;margin:0 auto;padding:18px}
+    .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-bottom:12px;font-family:Arial,sans-serif;flex-wrap:wrap}
+    button{border:0;background:#111;color:white;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}
+    button.gray{background:#555}
+    button.orange{background:#9a3412}
+    button.green{background:#166534}
+    .page{width:210mm;min-height:297mm;background:white;margin:0 auto 18px;padding:22mm 18mm;box-shadow:0 2px 12px rgba(0,0,0,.22);position:relative}
+    h1{font-size:31px;line-height:1.03;margin:0 0 20px;font-weight:900;letter-spacing:.3px;text-transform:uppercase}
+    h2{font-size:31px;line-height:1.05;margin:26px 0 18px;font-weight:900;text-transform:uppercase;display:flex;align-items:center;gap:12px}
+    h3{font-size:22px;line-height:1.05;margin:0 0 18px;font-weight:900;text-transform:uppercase}
+    .small{font-size:15px;line-height:1.3;font-weight:700}
+    .row{display:flex;align-items:flex-end;gap:8px;margin:5px 0;font-size:16px;font-weight:700}
+    .line{display:inline-block;border-bottom:2px solid #222;min-width:145px;height:21px;vertical-align:bottom;padding:0 4px;font-weight:400}
+    .line.short{min-width:84px}.line.tiny{min-width:62px}.line.long{min-width:240px}.line.full{width:100%}
+    .section-sep{border-top:2px solid #777;margin:20px 0 18px}
+    ul{margin:0 0 0 28px;padding:0;font-size:18px;line-height:1.35}
+    li{padding-left:8px;margin:2px 0}
+    .formula{font-style:italic;font-size:17px;margin-left:58px;margin-top:-2px;margin-bottom:6px}
+    .bold{font-weight:900}.center{text-align:center}.reason{font-family:'Courier New',monospace;font-size:14px;line-height:1.35;text-align:center;margin-top:22px}
+    .icon{width:42px;height:42px;display:inline-flex;align-items:center;justify-content:center;font-size:28px;filter:grayscale(100%)}
+    .checkline{font-size:17px;line-height:1.55;font-weight:700}.checkline input{width:16px;height:16px;margin-right:5px;vertical-align:middle}
+    .stich{font-size:18px;font-weight:900;margin:20px 0 8px}.plainline{font-size:18px;font-weight:900;word-spacing:3px;margin-bottom:22px}
+    .loss-grid{font-size:19px;font-weight:900;line-height:1.55}.loss-grid .row{font-size:19px;margin:8px 0}.checks{font-size:20px;line-height:1.55;margin-top:18px}.checks label{display:block;margin:7px 0}.checks input[type="checkbox"]{width:18px;height:18px;margin-right:6px;vertical-align:middle}
+    .subhead{font-size:19px;font-weight:900;margin-top:18px}.liefer{font-size:18px;font-weight:700;margin-top:22px}.spacer{height:10px}
+    input.blank, select.blank{
+      font-family:Arial,Helvetica,sans-serif;
+      font-variant-numeric:tabular-nums lining-nums;
+      border:0;border-bottom:2px solid #222;min-width:80px;font-size:18px;background:transparent;text-align:center;padding:0 3px;height:25px;color:#111
+    }
+    input.blank.long{min-width:240px;text-align:left}
+    input.blank.tiny{min-width:62px}
+    input.blank.short{min-width:84px}
+    input.blank.full{width:100%;text-align:left}
+    select.blank.long{min-width:240px;text-align:left;background:white;border:1px solid #aaa;border-radius:6px;height:30px;padding-left:8px}
+    .manual{font-size:15px;font-family:Arial,sans-serif;color:#333;margin:0 auto 12px;max-width:210mm;background:#fff7ed;border:1px solid #fed7aa;padding:10px;border-radius:10px}
+    .mini-actions{font-family:Arial,sans-serif;display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
+    .mini-actions button{font-size:12px;padding:7px 9px;border-radius:7px;background:#374151}
+    @media print{
+      body{background:white}
+      .app{padding:0;margin:0;max-width:none}
+      .toolbar,.manual,.mini-actions{display:none!important}
+      .page{box-shadow:none;margin:0;width:210mm;height:297mm;min-height:0;page-break-after:always;break-after:page;padding:16mm 17mm 12mm 17mm;overflow:hidden}
+      .page:last-child{page-break-after:auto;break-after:auto}
+      h1{font-size:27px;margin-bottom:15px;line-height:1.02}
+      h2{font-size:25px;margin:18px 0 12px;line-height:1.02;gap:8px}
+      h3{font-size:21px;margin-bottom:14px}
+      .small{font-size:14px;line-height:1.18}
+      .row{font-size:15px;margin:3px 0;line-height:1.15}
+      ul{font-size:16px;line-height:1.18;margin-left:24px}
+      li{margin:1px 0;padding-left:5px}
+      .formula{font-size:15px;margin-left:48px;margin-bottom:4px}
+      .icon{width:34px;height:34px;font-size:23px}
+      .reason{font-size:12px;margin-top:14px;line-height:1.25}
+      .section-sep{margin:12px 0 12px}
+      .checkline{font-size:15px;line-height:1.3}
+      .stich{font-size:16px;margin:14px 0 6px}
+      .plainline{font-size:15px;margin-bottom:16px;word-spacing:1px}
+      .loss-grid{font-size:16px;line-height:1.25}
+      .loss-grid .row{font-size:16px;margin:4px 0}
+      .subhead{font-size:16px;margin-top:10px}
+      .checks{font-size:16px;line-height:1.25;margin-top:8px}
+      .checks label{margin:4px 0}
+      .liefer{font-size:15px;margin-top:12px}
+      input.blank,select.blank{font-size:15px;height:19px;border-bottom:1.5px solid #000;border-top:0;border-left:0;border-right:0;border-radius:0;background:transparent;font-family:Arial,Helvetica,sans-serif;font-variant-numeric:tabular-nums lining-nums;appearance:none}
+      @page{size:A4;margin:0}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="toolbar">
+    <button onclick="window.print()">Drucken / PDF</button>
+    <button class="gray" onclick="calc()">Berechnen</button>
+    <button class="gray" onclick="setToday()">Datum automatisch</button>
+    <button class="green" onclick="addClient()">Kunde speichern</button>
+    <button class="orange" onclick="fillDeckelText()">Text: beschädigte Deckel</button>
+    <button class="gray" onclick="clearAll()">Leeren</button>
+  </div>
+  <div class="manual">Preencha os campos brancos. “Berechnen” calcula automaticamente: Gesamtmenge Nenngewicht, Gesamtmenge real, Überfüllung gesamt, Gesamtproduktion e Verlustanteil.</div>
+
+  <section class="page">
+    <h1>PRODUKTIONS- UND<br>LIEFERPROTOKOLL – EISBECHER</h1>
+
+    <div class="small">
+      <div><span class="bold">Betrieb:</span> Eiscafé Sanremo</div>
+      <div><span class="bold">Adresse:</span> Fürst Richard Str. 1, 57319 Bad Berleburg</div>
+    </div>
+    <br>
+    <div class="row"><span>Datum:</span><input id="datum" class="blank long" placeholder="TT.MM.JJJJ"></div>
+    <div class="row"><span>Auftrags-/Lieferscheinnr.:</span><input id="lieferschein" class="blank long"></div>
+    <div class="row"><span>Kunde / Filiale:</span><input id="kunde" class="blank long"></div>
+    <div class="row"><span>Kunde auswählen:</span><select id="kundeSelect" class="blank long" onchange="selectClient()"></select></div>
+    <div class="row"><span>Mitarbeiter Produktion:</span><input id="mitarbeiterProduktion" class="blank long"></div>
+    <div class="row"><span>Mitarbeiter Lieferung:</span><input id="mitarbeiterLieferung" class="blank long"></div>
+
+    <h2><span class="icon">🍨</span> PRODUKT 1 – 170 g BECHER</h2>
+    <ul>
+      <li><span class="bold">Nenngewicht (gesetzlich):</span> 170 g</li>
+      <li><span class="bold">Tara (Becher + Deckel):</span> <input id="p170_tara" class="blank tiny" value="10"> g (Standard: 10 g)</li>
+      <li><span class="bold">Soll Gesamtgewicht (Ziel):</span> 185 g</li>
+      <li><span class="bold">Tatsächliches Gesamtgewicht (Kontrolle):</span> <input id="p170_ist" class="blank tiny"> g</li>
+      <li><span class="bold">Produzierte Menge:</span> <input id="p170_prod" class="blank tiny"> Stück</li>
+      <li><span class="bold">Gelieferte Menge:</span> <input id="p170_lief" class="blank tiny"> Stück</li>
+      <li><span class="bold">Gesamtmenge (Nenngewicht):</span> <input id="p170_nennkg" class="blank tiny" readonly> kg</li>
+    </ul>
+    <div class="formula">(Stück × 0,170 kg)</div>
+    <ul>
+      <li><span class="bold">Gesamtmenge (real, berechnet):</span> <input id="p170_realkg" class="blank tiny" readonly> kg</li>
+    </ul>
+    <div class="formula">((Ist-Gewicht − Tara) × Stück)</div>
+
+    <h2><span class="icon">🍨</span> PRODUKT 2 – 750 g BECHER</h2>
+    <ul>
+      <li><span class="bold">Nenngewicht (gesetzlich):</span> 750 g</li>
+      <li><span class="bold">Tara (Becher + Deckel):</span> <input id="p750_tara" class="blank tiny" value="28"> g (Standard: 28 g)</li>
+      <li><span class="bold">Soll Gesamtgewicht (Ziel):</span> 785 g</li>
+      <li><span class="bold">Tatsächliches Gesamtgewicht (Kontrolle):</span> <input id="p750_ist" class="blank tiny"> g</li>
+      <li><span class="bold">Produzierte Menge:</span> <input id="p750_prod" class="blank tiny"> Stück</li>
+      <li><span class="bold">Gelieferte Menge:</span> <input id="p750_lief" class="blank tiny"> Stück</li>
+      <li><span class="bold">Gesamtmenge (Nenngewicht):</span> <input id="p750_nennkg" class="blank tiny" readonly> kg</li>
+    </ul>
+    <div class="formula">(Stück × 0,750 kg)</div>
+    <ul>
+      <li><span class="bold">Gesamtmenge (real, berechnet):</span> <input id="p750_realkg" class="blank tiny" readonly> kg</li>
+    </ul>
+
+    <h2><span class="icon">🎁</span> ABWEICHUNG /<br>PRODUKTIONSVERLUST</h2>
+    <ul>
+      <li><span class="bold">Überfüllung gesamt (kg):</span> <input id="over_total" class="blank tiny" readonly> kg</li>
+    </ul>
+    <div class="reason"><span class="bold">Grund:</span> Produktionsbedingter Sicherheitszuschlag zur Einhaltung der gesetzlichen<br>Mindestfüllmenge. Abfüllung erfolgt oberhalb des Nenngewichts<br>zur Vermeidung von Unterfüllung.</div>
+  </section>
+
+  <section class="page">
+    <h3>KONTROLLVERFAHREN</h3>
+    <div class="checkline"><input type="checkbox" checked>100% Verwiegung (jedes Stück gewogen)</div>
+    <div class="checkline"><input type="checkbox" checked>Stichprobenkontrolle gemäß interner Richtlinie durchgeführt</div>
+
+    <div class="stich">Stichprobe (Auszug):</div>
+    <div class="plainline">Uhrzeit Produkt Gesamtgewicht OK / NICHT OK Unterschrift</div>
+    <div class="section-sep"></div>
+
+    <h2 style="margin-top:0">AUSSCHUSS / VERLUSTE<br>(PRODUKTION)</h2>
+
+    <div class="loss-grid">
+      <div class="row"><span>Datum:</span><input id="verlust_datum" class="blank long" placeholder="TT.MM.JJJJ"></div>
+      <div class="row"><span>Produkt:</span><input id="verlust_produkt" class="blank long"></div>
+      <div class="row"><span>Menge (Stück):</span><input id="verlust_stueck" class="blank short"></div>
+      <div class="row"><span>Gewicht (kg):</span><input id="verlust_kg" class="blank short"></div>
+
+      <div class="subhead">Bezug zur Produktion:</div>
+      <div class="row"><span>Gesamtproduktion:</span><input id="gesamtproduktion" class="blank short" readonly> Stück</div>
+      <div class="row"><span>Verlustanteil (%):</span><input id="verlust_prozent" class="blank short" readonly> %</div>
+    </div>
+
+    <div class="subhead">Art des Verlustes (ankreuzen):</div>
+    <div class="checks">
+      <label><input id="cb_becher" type="checkbox">Beschädigte Becher</label>
+      <label><input id="cb_deckel" type="checkbox">Beschädigte Deckel</label>
+      <label><input id="cb_fehlproduktion" type="checkbox">Fehlproduktion (Geschmack / Konsistenz)</label>
+      <label><input id="cb_reste" type="checkbox">Produktionsreste</label>
+      <label><input id="cb_temperatur" type="checkbox">Temperatur / Lagerung</label>
+      <label><input id="cb_hygiene" type="checkbox">Hygiene / Entsorgung</label>
+      <label><input id="cb_sonstiges" type="checkbox">Sonstiges: <input id="sonstiges_text" class="blank long"></label>
+      <br>
+      <label><input id="cb_ueberfuellung" type="checkbox" checked>technisch bedingte Überfüllung</label>
+      <label><input id="cb_ausschuss" type="checkbox" checked>produktionsbedingter Ausschuss</label>
+    </div>
+
+    <div class="mini-actions">
+      <button type="button" onclick="fillDeckelText()">Beschädigte Deckel automatisch eintragen</button>
+      <button type="button" onclick="clearLossTexts()">Texte leeren</button>
+    </div>
+
+    <div class="subhead">Beschreibung:</div><input id="beschreibung" class="blank full">
+    <div class="subhead">Ursache:</div><input id="ursache" class="blank full">
+    <div class="subhead">Maßnahme (optional):</div><input id="massnahme" class="blank full">
+    <div class="row"><span class="bold">Verantwortlicher:</span><input id="verantwortlicher" class="blank long"></div>
+
+    <div class="liefer">Gewicht bei Übergabe kontrolliert: <label><input id="uebergabe_ja" type="checkbox"> JA</label> <label><input id="uebergabe_nein" type="checkbox"> NEIN</label></div>
+  </section>
+</div>
+
+<script>
+function n(id){return parseFloat(String(document.getElementById(id).value).replace(',','.'))||0}
+function f(x){return (Math.round(x*100)/100).toFixed(2).replace('.',',')}
+function set(id,v){document.getElementById(id).value=v}
+function calc(){
+  const p170_lief=n('p170_lief'), p170_prod=n('p170_prod'), p170_ist=n('p170_ist'), p170_tara=n('p170_tara');
+  const p750_lief=n('p750_lief'), p750_prod=n('p750_prod'), p750_ist=n('p750_ist'), p750_tara=n('p750_tara');
+  const p170_nenn=p170_lief*0.170;
+  const p170_real=((p170_ist-p170_tara)*p170_lief)/1000;
+  const p750_nenn=p750_lief*0.750;
+  const p750_real=((p750_ist-p750_tara)*p750_lief)/1000;
+  set('p170_nennkg', p170_lief?f(p170_nenn):'');
+  set('p170_realkg', p170_lief&&p170_ist?f(p170_real):'');
+  set('p750_nennkg', p750_lief?f(p750_nenn):'');
+  set('p750_realkg', p750_lief&&p750_ist?f(p750_real):'');
+  const over=(p170_real-p170_nenn)+(p750_real-p750_nenn);
+  set('over_total', over?f(over):'');
+  const totalProd=p170_prod+p750_prod;
+  set('gesamtproduktion', totalProd?totalProd:'');
+  const vk=n('verlust_kg');
+  const totalReal=p170_real+p750_real;
+  set('verlust_prozent', vk&&totalReal?f(vk/totalReal*100):'');
+}
+function germanDate(){
+  const d=new Date();
+  const day=String(d.getDate()).padStart(2,'0');
+  const month=String(d.getMonth()+1).padStart(2,'0');
+  const year=d.getFullYear();
+  return `${day}.${month}.${year}`;
+}
+function setToday(){
+  const today=germanDate();
+  set('datum',today);
+  set('verlust_datum',today);
+}
+function fillDeckelText(){
+  document.getElementById('cb_deckel').checked=true;
+  set('beschreibung','Mehrere Deckel während der Abfüllung beschädigt, nicht verwendbar.');
+  set('ursache','Materialschwäche / fehlerhafte Lieferung.');
+  set('massnahme','Beschädigte Deckel aussortiert und entsorgt.');
+}
+function clearLossTexts(){
+  set('beschreibung','');
+  set('ursache','');
+  set('massnahme','');
+}
+function clearAll(){
+  document.querySelectorAll('input.blank').forEach(i=>{if(!i.readOnly && i.id!=='p170_tara' && i.id!=='p750_tara')i.value=''});
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb=>{cb.checked=false});
+  document.getElementById('cb_ueberfuellung').checked=true;
+  document.getElementById('cb_ausschuss').checked=true;
+  calc();
+}
+function getClients(){try{return JSON.parse(localStorage.getItem('sanremo_clients')||'[]')}catch(e){return []}}
+function saveClients(arr){localStorage.setItem('sanremo_clients',JSON.stringify(arr))}
+function renderClients(){
+  const sel=document.getElementById('kundeSelect');
+  const current=sel.value;
+  sel.innerHTML='<option value="">-- Kunde auswählen --</option>';
+  getClients().forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
+  if(current)sel.value=current;
+}
+function addClient(){
+  const v=document.getElementById('kunde').value.trim();
+  if(!v){alert('Escreve primeiro o cliente no campo Kunde / Filiale.');return}
+  const arr=getClients();
+  if(!arr.includes(v))arr.push(v);
+  arr.sort();
+  saveClients(arr);
+  renderClients();
+  document.getElementById('kundeSelect').value=v;
+}
+function selectClient(){
+  const v=document.getElementById('kundeSelect').value;
+  if(v)document.getElementById('kunde').value=v;
+}
+document.addEventListener('input',calc);
+document.addEventListener('DOMContentLoaded',()=>{renderClients();calc()});
+</script>
+</body>
+</html>
