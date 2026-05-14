@@ -279,10 +279,10 @@ function set(id,v){
 
 function calc(){
   const products = [
-    {prefix:'p170',  nennKg:0.170},
-    {prefix:'p750',  nennKg:0.750},
-    {prefix:'t1300', nennKg:1.300},
-    {prefix:'t2000', nennKg:2.000}
+    {prefix:'p170',  nennKg:0.170, label:'170 g Becher'},
+    {prefix:'p750',  nennKg:0.750, label:'750 g Becher'},
+    {prefix:'t1300', nennKg:1.300, label:'Eistorte 1.300 g'},
+    {prefix:'t2000', nennKg:2.000, label:'Eistorte 2.000 g'}
   ];
 
   let totalOver = 0;
@@ -322,8 +322,27 @@ function calc(){
   set('gesamtproduktion', totalProd ? totalProd : '');
   set('gesamt_real_kg', totalReal ? f(totalReal) : '');
 
-  const vk = n('verlust_kg');
-  set('verlust_prozent', vk && totalReal ? f(vk / totalReal * 100) : '');
+  // Automatische Verlustberechnung
+  const produktText = (getEl('verlust_produkt')?.value || '').toLowerCase();
+  const verlustStueck = n('verlust_stueck');
+  let verlustKg = n('verlust_kg');
+  let verlustWert = n('verlust_wert');
+  let matched = null;
+
+  if(produktText.includes('170')) matched = products[0];
+  else if(produktText.includes('750')) matched = products[1];
+  else if(produktText.includes('1.300') || produktText.includes('1300')) matched = products[2];
+  else if(produktText.includes('2.000') || produktText.includes('2000')) matched = products[3];
+
+  if(matched && verlustStueck){
+    const preis = n(matched.prefix + '_preis');
+    verlustKg = verlustStueck * matched.nennKg;
+    verlustWert = preis ? verlustStueck * preis : 0;
+    set('verlust_kg', f(verlustKg));
+    set('verlust_wert', verlustWert ? f(verlustWert) : '');
+  }
+
+  set('verlust_prozent', verlustKg && totalReal ? f(verlustKg / totalReal * 100) : '');
 
   const warn=getEl('warnText');
   if(warn){
