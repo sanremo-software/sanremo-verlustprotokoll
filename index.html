@@ -260,13 +260,22 @@
 </div>
 
 <script>
+function getEl(id){return document.getElementById(id)}
+
 function n(id){
-  const el=document.getElementById(id);
+  const el=getEl(id);
   if(!el)return 0;
   return parseFloat(String(el.value).replace(',','.'))||0;
 }
-function f(x){return (Math.round(x*100)/100).toFixed(2).replace('.',',')}
-function set(id,v){const el=document.getElementById(id);if(el)el.value=v}
+
+function f(x){
+  return (Math.round(x*100)/100).toFixed(2).replace('.',',');
+}
+
+function set(id,v){
+  const el=getEl(id);
+  if(el)el.value=v;
+}
 
 function calc(){
   const products = [
@@ -300,10 +309,7 @@ function calc(){
     set(p.prefix + '_realkg', (lief && ist) ? f(realTotal) : '');
     set(p.prefix + '_wert', (lief && preis) ? f(wert) : '');
 
-    if(lief && preis){
-      totalWert += wert;
-    }
-
+    if(lief && preis){totalWert += wert;}
     if(lief && ist){
       hasWeightControl = true;
       totalReal += realTotal;
@@ -319,7 +325,7 @@ function calc(){
   const vk = n('verlust_kg');
   set('verlust_prozent', vk && totalReal ? f(vk / totalReal * 100) : '');
 
-  const warn = document.getElementById('warnText');
+  const warn=getEl('warnText');
   if(warn){
     warn.textContent = hasWeightControl && totalOver < 0 ? 'ACHTUNG: Unterfüllung berechnet – Gewichte sofort prüfen.' : '';
   }
@@ -332,76 +338,123 @@ function germanDate(){
   const year=d.getFullYear();
   return `${year}-${month}-${day}`;
 }
+
 function setToday(){
   const today=germanDate();
   set('datum',today);
   set('verlust_datum',today);
 }
+
 function fillDeckelText(){
-  document.getElementById('cb_deckel').checked=true;
+  const cb=getEl('cb_deckel');
+  if(cb)cb.checked=true;
   set('beschreibung','Mehrere Deckel während der Abfüllung beschädigt, nicht verwendbar.');
   set('ursache','Materialschwäche / fehlerhafte Lieferung.');
   set('massnahme','Beschädigte Deckel aussortiert und entsorgt.');
 }
+
 function fillTorteText(){
-  document.getElementById('cb_torte').checked=true;
+  const cb=getEl('cb_torte');
+  if(cb)cb.checked=true;
   set('beschreibung','Eistorte während Produktion / Lagerung beschädigt oder optisch nicht verkaufsfähig.');
   set('ursache','Produktionsbedingter Schaden / Dekorationsfehler / Transportschaden intern.');
   set('massnahme','Ware aus dem Verkauf genommen und als Produktionsverlust dokumentiert.');
 }
+
 function clearLossTexts(){
   set('beschreibung','');
   set('ursache','');
   set('massnahme','');
 }
+
 function clearAll(){
   document.querySelectorAll('input.blank').forEach(i=>{
-    if(!i.readOnly && i.id!=='p170_tara' && i.id!=='p750_tara' && i.id!=='t1300_tara' && i.id!=='t2000_tara')i.value='';
+    if(!i.readOnly && !['p170_tara','p750_tara','t1300_tara','t2000_tara'].includes(i.id)){
+      i.value='';
+    }
   });
   document.querySelectorAll('input[type="checkbox"]').forEach(cb=>{cb.checked=false});
-  document.getElementById('cb_ueberfuellung').checked=true;
-  document.getElementById('cb_ausschuss').checked=true;
+  const cb1=getEl('cb_ueberfuellung');
+  const cb2=getEl('cb_ausschuss');
+  if(cb1)cb1.checked=true;
+  if(cb2)cb2.checked=true;
   setToday();
-  const warn=document.getElementById('warnText');
+  const warn=getEl('warnText');
   if(warn)warn.textContent='';
   calc();
 }
-function getClients(){try{return JSON.parse(localStorage.getItem('sanremo_clients')||'[]')}catch(e){return []}}
-function saveClients(arr){localStorage.setItem('sanremo_clients',JSON.stringify(arr))}
+
+function getClients(){
+  try{
+    return JSON.parse(localStorage.getItem('sanremo_clients') || '[]');
+  }catch(e){
+    return [];
+  }
+}
+
+function saveClients(arr){
+  localStorage.setItem('sanremo_clients', JSON.stringify(arr));
+}
+
 function renderClients(){
-  const datalist=document.getElementById('kundenListe');
-  if(datalist)datalist.innerHTML='';
-  const sel=document.getElementById('kundeSelect');
+  const sel=getEl('kundeSelect');
+  const datalist=getEl('kundenListe');
+  if(!sel)return;
+
   const current=sel.value;
   sel.innerHTML='<option value="">-- Kunde auswählen --</option>';
+  if(datalist)datalist.innerHTML='';
+
   getClients().forEach(c=>{
     const o=document.createElement('option');
     o.value=c;
     o.textContent=c;
     sel.appendChild(o);
 
-    const d=document.createElement('option');
-    d.value=c;
-    if(datalist)datalist.appendChild(d);
+    if(datalist){
+      const d=document.createElement('option');
+      d.value=c;
+      datalist.appendChild(d);
+    }
   });
+
   if(current)sel.value=current;
 }
+
 function addClient(){
-  const v=document.getElementById('kunde').value.trim();
-  if(!v){alert('Escreve primeiro o cliente no campo Kunde / Filiale.');return}
+  const input=getEl('kunde');
+  if(!input)return;
+
+  const v=input.value.trim();
+  if(!v){
+    alert('Escreve primeiro o cliente no campo Kunde / Filiale.');
+    return;
+  }
+
   const arr=getClients();
-  if(!arr.includes(v))arr.push(v);
-  arr.sort();
+  const exists=arr.some(c=>c.toLowerCase()===v.toLowerCase());
+  if(!exists){arr.push(v);}
+  arr.sort((a,b)=>a.localeCompare(b,'de'));
   saveClients(arr);
   renderClients();
-  document.getElementById('kundeSelect').value=v;
+
+  const sel=getEl('kundeSelect');
+  if(sel)sel.value=v;
+  input.value=v;
+  alert('Cliente guardado: ' + v);
 }
+
 function selectClient(){
-  const v=document.getElementById('kundeSelect').value;
-  if(v)document.getElementById('kunde').value=v;
+  const sel=getEl('kundeSelect');
+  const input=getEl('kunde');
+  if(sel && input && sel.value){input.value=sel.value;}
 }
-document.addEventListener('input',calc);
-document.addEventListener('DOMContentLoaded',()=>{
+
+document.addEventListener('input',function(e){
+  if(e.target && e.target.tagName==='INPUT')calc();
+});
+
+document.addEventListener('DOMContentLoaded',function(){
   renderClients();
   setToday();
   calc();
