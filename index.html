@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produktions- und Lieferprotokoll – Eisbecher</title>
+  <title>Produktions- und Lieferprotokoll – Eisbecher & Torten</title>
   <style>
     *{box-sizing:border-box}
     body{margin:0;background:#e5e5e5;font-family:Georgia,'Times New Roman',serif;color:#111}
-    .app{max-width:900px;margin:0 auto;padding:18px}
+    .app{max-width:1050px;margin:0 auto;padding:18px}
     .toolbar{display:flex;gap:10px;justify-content:flex-end;margin-bottom:12px;font-family:Arial,sans-serif;flex-wrap:wrap}
     button{border:0;background:#111;color:white;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}
     button.gray{background:#555}
@@ -18,7 +18,7 @@
     h2{font-size:31px;line-height:1.05;margin:26px 0 18px;font-weight:900;text-transform:uppercase;display:flex;align-items:center;gap:12px}
     h3{font-size:22px;line-height:1.05;margin:0 0 18px;font-weight:900;text-transform:uppercase}
     .small{font-size:15px;line-height:1.3;font-weight:700}
-    .row{display:flex;align-items:flex-end;gap:8px;margin:5px 0;font-size:16px;font-weight:700}
+    .row{display:flex;align-items:flex-end;gap:8px;margin:5px 0;font-size:16px;font-weight:700;flex-wrap:wrap}
     .line{display:inline-block;border-bottom:2px solid #222;min-width:145px;height:21px;vertical-align:bottom;padding:0 4px;font-weight:400}
     .line.short{min-width:84px}.line.tiny{min-width:62px}.line.long{min-width:240px}.line.full{width:100%}
     .section-sep{border-top:2px solid #777;margin:20px 0 18px}
@@ -87,8 +87,9 @@
   </div>
   <div class="manual">Preencha os campos brancos. “Berechnen” calcula automaticamente: Gesamtmenge Nenngewicht, Gesamtmenge real, Überfüllung gesamt, Gesamtproduktion e Verlustanteil.</div>
 
+  <!-- Página 1 -->
   <section class="page">
-    <h1>PRODUKTIONS- UND<br>LIEFERPROTOKOLL – EISBECHER</h1>
+    <h1>PRODUKTIONS- UND<br>LIEFERPROTOKOLL – EISBECHER & TORTEN</h1>
 
     <div class="small">
       <div><span class="bold">Betrieb:</span> Eiscafé Sanremo</div>
@@ -105,7 +106,7 @@
     <h2><span class="icon">🍨</span> PRODUKT 1 – 170 g BECHER</h2>
     <ul>
       <li><span class="bold">Nenngewicht (gesetzlich):</span> 170 g</li>
-      <li><span class="bold">Tara (Becher + Deckel):</span> <input id="p170_tara" class="blank tiny" value="10"> g (Standard: 10 g)</li>
+      <li><span class="bold">Tara (Becher + Deckel):</span> <input id="p170_tara" class="blank tiny" value="10"> g</li>
       <li><span class="bold">Soll Gesamtgewicht (Ziel):</span> 185 g</li>
       <li><span class="bold">Tatsächliches Gesamtgewicht (Kontrolle):</span> <input id="p170_ist" class="blank tiny"> g</li>
       <li><span class="bold">Produzierte Menge:</span> <input id="p170_prod" class="blank tiny"> Stück</li>
@@ -121,7 +122,7 @@
     <h2><span class="icon">🍨</span> PRODUKT 2 – 750 g BECHER</h2>
     <ul>
       <li><span class="bold">Nenngewicht (gesetzlich):</span> 750 g</li>
-      <li><span class="bold">Tara (Becher + Deckel):</span> <input id="p750_tara" class="blank tiny" value="28"> g (Standard: 28 g)</li>
+      <li><span class="bold">Tara (Becher + Deckel):</span> <input id="p750_tara" class="blank tiny" value="28"> g</li>
       <li><span class="bold">Soll Gesamtgewicht (Ziel):</span> 785 g</li>
       <li><span class="bold">Tatsächliches Gesamtgewicht (Kontrolle):</span> <input id="p750_ist" class="blank tiny"> g</li>
       <li><span class="bold">Produzierte Menge:</span> <input id="p750_prod" class="blank tiny"> Stück</li>
@@ -132,15 +133,51 @@
     <ul>
       <li><span class="bold">Gesamtmenge (real, berechnet):</span> <input id="p750_realkg" class="blank tiny" readonly> kg</li>
     </ul>
+  </section>
 
+  <!-- Página 2 – Torten -->
+  <section class="page">
+    <h2><span class="icon">🍰</span> PRODUKT 3 – 1300 g EISTORTE</h2>
+    <ul>
+      <li><span class="bold">Nenngewicht (gesetzlich):</span> 1300 g</li>
+      <li><span class="bold">Tara (Verpackung):</span> <input id="p1300_tara" class="blank tiny" value="45"> g</li>
+      <li><span class="bold">Soll Gesamtgewicht (Ziel):</span> 1345 g</li>
+      <li><span class="bold">Tatsächliches Gesamtgewicht (Kontrolle):</span> <input id="p1300_ist" class="blank tiny"> g</li>
+      <li><span class="bold">Produzierte Menge:</span> <input id="p1300_prod" class="blank tiny"> Stück</li>
+      <li><span class="bold">Gelieferte Menge:</span> <input id="p1300_lief" class="blank tiny"> Stück</li>
+      <li><span class="bold">Gesamtmenge (Nenngewicht):</span> <input id="p1300_nennkg" class="blank tiny" readonly> kg</li>
+    </ul>
+    <div class="formula">(Stück × 1,300 kg)</div>
+    <ul>
+      <li><span class="bold">Gesamtmenge (real, berechnet):</span> <input id="p1300_realkg" class="blank tiny" readonly> kg</li>
+    </ul>
+    <div class="formula">((Ist-Gewicht − Tara) × Stück / 1000)</div>
+
+    <h2><span class="icon">🍰</span> PRODUKT 4 – 2000 g EISTORTE</h2>
+    <ul>
+      <li><span class="bold">Nenngewicht (gesetzlich):</span> 2000 g</li>
+      <li><span class="bold">Tara (Verpackung):</span> <input id="p2000_tara" class="blank tiny" value="60"> g</li>
+      <li><span class="bold">Soll Gesamtgewicht (Ziel):</span> 2060 g</li>
+      <li><span class="bold">Tatsächliches Gesamtgewicht (Kontrolle):</span> <input id="p2000_ist" class="blank tiny"> g</li>
+      <li><span class="bold">Produzierte Menge:</span> <input id="p2000_prod" class="blank tiny"> Stück</li>
+      <li><span class="bold">Gelieferte Menge:</span> <input id="p2000_lief" class="blank tiny"> Stück</li>
+      <li><span class="bold">Gesamtmenge (Nenngewicht):</span> <input id="p2000_nennkg" class="blank tiny" readonly> kg</li>
+    </ul>
+    <div class="formula">(Stück × 2,000 kg)</div>
+    <ul>
+      <li><span class="bold">Gesamtmenge (real, berechnet):</span> <input id="p2000_realkg" class="blank tiny" readonly> kg</li>
+    </ul>
+    <div class="formula">((Ist-Gewicht − Tara) × Stück / 1000)</div>
+  </section>
+
+  <!-- Página 3 – Abweichung / Verlust -->
+  <section class="page">
     <h2><span class="icon">🎁</span> ABWEICHUNG /<br>PRODUKTIONSVERLUST</h2>
     <ul>
       <li><span class="bold">Überfüllung gesamt (kg):</span> <input id="over_total" class="blank tiny" readonly> kg</li>
     </ul>
     <div class="reason"><span class="bold">Grund:</span> Produktionsbedingter Sicherheitszuschlag zur Einhaltung der gesetzlichen<br>Mindestfüllmenge. Abfüllung erfolgt oberhalb des Nenngewichts<br>zur Vermeidung von Unterfüllung.</div>
-  </section>
 
-  <section class="page">
     <h3>KONTROLLVERFAHREN</h3>
     <div class="checkline"><input type="checkbox" checked>100% Verwiegung (jedes Stück gewogen)</div>
     <div class="checkline"><input type="checkbox" checked>Stichprobenkontrolle gemäß interner Richtlinie durchgeführt</div>
@@ -158,13 +195,13 @@
       <div class="row"><span>Gewicht (kg):</span><input id="verlust_kg" class="blank short"></div>
 
       <div class="subhead">Bezug zur Produktion:</div>
-      <div class="row"><span>Gesamtproduktion:</span><input id="gesamtproduktion" class="blank short" readonly> Stück</div>
+      <div class="row"><span>Gesamtproduktion (alle Produkte):</span><input id="gesamtproduktion" class="blank short" readonly> Stück</div>
       <div class="row"><span>Verlustanteil (%):</span><input id="verlust_prozent" class="blank short" readonly> %</div>
     </div>
 
     <div class="subhead">Art des Verlustes (ankreuzen):</div>
     <div class="checks">
-      <label><input id="cb_becher" type="checkbox">Beschädigte Becher</label>
+      <label><input id="cb_becher" type="checkbox">Beschädigte Becher / Verpackung</label>
       <label><input id="cb_deckel" type="checkbox">Beschädigte Deckel</label>
       <label><input id="cb_fehlproduktion" type="checkbox">Fehlproduktion (Geschmack / Konsistenz)</label>
       <label><input id="cb_reste" type="checkbox">Produktionsreste</label>
@@ -195,24 +232,48 @@ function n(id){return parseFloat(String(document.getElementById(id).value).repla
 function f(x){return (Math.round(x*100)/100).toFixed(2).replace('.',',')}
 function set(id,v){document.getElementById(id).value=v}
 function calc(){
-  const p170_lief=n('p170_lief'), p170_prod=n('p170_prod'), p170_ist=n('p170_ist'), p170_tara=n('p170_tara');
-  const p750_lief=n('p750_lief'), p750_prod=n('p750_prod'), p750_ist=n('p750_ist'), p750_tara=n('p750_tara');
+  // Produkt 1 (170g)
+  const p170_lief=n('p170_lief'), p170_ist=n('p170_ist'), p170_tara=n('p170_tara'), p170_prod=n('p170_prod');
   const p170_nenn=p170_lief*0.170;
   const p170_real=((p170_ist-p170_tara)*p170_lief)/1000;
-  const p750_nenn=p750_lief*0.750;
-  const p750_real=((p750_ist-p750_tara)*p750_lief)/1000;
   set('p170_nennkg', p170_lief?f(p170_nenn):'');
   set('p170_realkg', p170_lief&&p170_ist?f(p170_real):'');
+  
+  // Produkt 2 (750g)
+  const p750_lief=n('p750_lief'), p750_ist=n('p750_ist'), p750_tara=n('p750_tara'), p750_prod=n('p750_prod');
+  const p750_nenn=p750_lief*0.750;
+  const p750_real=((p750_ist-p750_tara)*p750_lief)/1000;
   set('p750_nennkg', p750_lief?f(p750_nenn):'');
   set('p750_realkg', p750_lief&&p750_ist?f(p750_real):'');
-  const over=(p170_real-p170_nenn)+(p750_real-p750_nenn);
+  
+  // Produkt 3 (1300g)
+  const p1300_lief=n('p1300_lief'), p1300_ist=n('p1300_ist'), p1300_tara=n('p1300_tara'), p1300_prod=n('p1300_prod');
+  const p1300_nenn=p1300_lief*1.300;
+  const p1300_real=((p1300_ist-p1300_tara)*p1300_lief)/1000;
+  set('p1300_nennkg', p1300_lief?f(p1300_nenn):'');
+  set('p1300_realkg', p1300_lief&&p1300_ist?f(p1300_real):'');
+  
+  // Produkt 4 (2000g)
+  const p2000_lief=n('p2000_lief'), p2000_ist=n('p2000_ist'), p2000_tara=n('p2000_tara'), p2000_prod=n('p2000_prod');
+  const p2000_nenn=p2000_lief*2.000;
+  const p2000_real=((p2000_ist-p2000_tara)*p2000_lief)/1000;
+  set('p2000_nennkg', p2000_lief?f(p2000_nenn):'');
+  set('p2000_realkg', p2000_lief&&p2000_ist?f(p2000_real):'');
+  
+  // Überfüllung gesamt (Summe real - Summe nenn)
+  const over = (p170_real-p170_nenn) + (p750_real-p750_nenn) + (p1300_real-p1300_nenn) + (p2000_real-p2000_nenn);
   set('over_total', over?f(over):'');
-  const totalProd=p170_prod+p750_prod;
+  
+  // Gesamtproduktion (Stück) – für alle Produkte
+  const totalProd = p170_prod + p750_prod + p1300_prod + p2000_prod;
   set('gesamtproduktion', totalProd?totalProd:'');
-  const vk=n('verlust_kg');
-  const totalReal=p170_real+p750_real;
-  set('verlust_prozent', vk&&totalReal?f(vk/totalReal*100):'');
+  
+  // Verlustanteil
+  const verlustKg = n('verlust_kg');
+  const totalReal = p170_real + p750_real + p1300_real + p2000_real;
+  set('verlust_prozent', verlustKg&&totalReal?f(verlustKg/totalReal*100):'');
 }
+
 function germanDate(){
   const d=new Date();
   const day=String(d.getDate()).padStart(2,'0');
@@ -237,7 +298,10 @@ function clearLossTexts(){
   set('massnahme','');
 }
 function clearAll(){
-  document.querySelectorAll('input.blank').forEach(i=>{if(!i.readOnly && i.id!=='p170_tara' && i.id!=='p750_tara')i.value=''});
+  document.querySelectorAll('input.blank').forEach(i=>{
+    if(!i.readOnly && i.id!=='p170_tara' && i.id!=='p750_tara' && i.id!=='p1300_tara' && i.id!=='p2000_tara')
+      i.value='';
+  });
   document.querySelectorAll('input[type="checkbox"]').forEach(cb=>{cb.checked=false});
   document.getElementById('cb_ueberfuellung').checked=true;
   document.getElementById('cb_ausschuss').checked=true;
