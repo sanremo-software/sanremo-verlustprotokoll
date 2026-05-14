@@ -269,61 +269,59 @@ function f(x){return (Math.round(x*100)/100).toFixed(2).replace('.',',')}
 function set(id,v){const el=document.getElementById(id);if(el)el.value=v}
 
 function calc(){
-  const p170_lief=n('p170_lief'), p170_prod=n('p170_prod'), p170_ist=n('p170_ist'), p170_tara=n('p170_tara'), p170_preis=n('p170_preis');
-  const p750_lief=n('p750_lief'), p750_prod=n('p750_prod'), p750_ist=n('p750_ist'), p750_tara=n('p750_tara'), p750_preis=n('p750_preis');
-  const t1300_lief=n('t1300_lief'), t1300_prod=n('t1300_prod'), t1300_ist=n('t1300_ist'), t1300_tara=n('t1300_tara'), t1300_preis=n('t1300_preis');
-  const t2000_lief=n('t2000_lief'), t2000_prod=n('t2000_prod'), t2000_ist=n('t2000_ist'), t2000_tara=n('t2000_tara'), t2000_preis=n('t2000_preis');
+  const products = [
+    {prefix:'p170',  nennKg:0.170},
+    {prefix:'p750',  nennKg:0.750},
+    {prefix:'t1300', nennKg:1.300},
+    {prefix:'t2000', nennKg:2.000}
+  ];
 
-  const p170_nenn=p170_lief*0.170;
-  const p170_real=((p170_ist-p170_tara)*p170_lief)/1000;
-  const p170_wert=p170_lief*p170_preis;
+  let totalOver = 0;
+  let totalWert = 0;
+  let totalProd = 0;
+  let totalReal = 0;
+  let hasWeightControl = false;
 
-  const p750_nenn=p750_lief*0.750;
-  const p750_real=((p750_ist-p750_tara)*p750_lief)/1000;
-  const p750_wert=p750_lief*p750_preis;
+  products.forEach(p=>{
+    const lief = n(p.prefix + '_lief');
+    const prod = n(p.prefix + '_prod');
+    const ist  = n(p.prefix + '_ist');
+    const tara = n(p.prefix + '_tara');
+    const preis = n(p.prefix + '_preis');
 
-  const t1300_nenn=t1300_lief*1.300;
-  const t1300_real=((t1300_ist-t1300_tara)*t1300_lief)/1000;
-  const t1300_wert=t1300_lief*t1300_preis;
+    const nennTotal = lief * p.nennKg;
+    const realPerPiece = ist > 0 ? (ist - tara) / 1000 : 0;
+    const realTotal = realPerPiece > 0 ? realPerPiece * lief : 0;
+    const wert = lief * preis;
 
-  const t2000_nenn=t2000_lief*2.000;
-  const t2000_real=((t2000_ist-t2000_tara)*t2000_lief)/1000;
-  const t2000_wert=t2000_lief*t2000_preis;
+    totalProd += prod;
 
-  set('p170_nennkg', p170_lief?f(p170_nenn):'');
-  set('p170_realkg', p170_lief&&p170_ist?f(p170_real):'');
-  set('p170_wert', p170_lief&&p170_preis?f(p170_wert):'');
+    set(p.prefix + '_nennkg', lief ? f(nennTotal) : '');
+    set(p.prefix + '_realkg', (lief && ist) ? f(realTotal) : '');
+    set(p.prefix + '_wert', (lief && preis) ? f(wert) : '');
 
-  set('p750_nennkg', p750_lief?f(p750_nenn):'');
-  set('p750_realkg', p750_lief&&p750_ist?f(p750_real):'');
-  set('p750_wert', p750_lief&&p750_preis?f(p750_wert):'');
+    if(lief && preis){
+      totalWert += wert;
+    }
 
-  set('t1300_nennkg', t1300_lief?f(t1300_nenn):'');
-  set('t1300_realkg', t1300_lief&&t1300_ist?f(t1300_real):'');
-  set('t1300_wert', t1300_lief&&t1300_preis?f(t1300_wert):'');
+    if(lief && ist){
+      hasWeightControl = true;
+      totalReal += realTotal;
+      totalOver += realTotal - nennTotal;
+    }
+  });
 
-  set('t2000_nennkg', t2000_lief?f(t2000_nenn):'');
-  set('t2000_realkg', t2000_lief&&t2000_ist?f(t2000_real):'');
-  set('t2000_wert', t2000_lief&&t2000_preis?f(t2000_wert):'');
+  set('over_total', hasWeightControl ? f(totalOver) : '');
+  set('wert_total', totalWert ? f(totalWert) : '');
+  set('gesamtproduktion', totalProd ? totalProd : '');
+  set('gesamt_real_kg', totalReal ? f(totalReal) : '');
 
-  const over=(p170_real-p170_nenn)+(p750_real-p750_nenn)+(t1300_real-t1300_nenn)+(t2000_real-t2000_nenn);
-  set('over_total', (p170_lief||p750_lief||t1300_lief||t2000_lief)?f(over):'');
+  const vk = n('verlust_kg');
+  set('verlust_prozent', vk && totalReal ? f(vk / totalReal * 100) : '');
 
-  const totalWert=p170_wert+p750_wert+t1300_wert+t2000_wert;
-  set('wert_total', totalWert?f(totalWert):'');
-
-  const totalProd=p170_prod+p750_prod+t1300_prod+t2000_prod;
-  set('gesamtproduktion', totalProd?totalProd:'');
-
-  const totalReal=p170_real+p750_real+t1300_real+t2000_real;
-  set('gesamt_real_kg', totalReal?f(totalReal):'');
-
-  const vk=n('verlust_kg');
-  set('verlust_prozent', vk&&totalReal?f(vk/totalReal*100):'');
-
-  const warn=document.getElementById('warnText');
+  const warn = document.getElementById('warnText');
   if(warn){
-    warn.textContent = over < 0 ? 'ACHTUNG: Unterfüllung berechnet – Gewichte sofort prüfen.' : '';
+    warn.textContent = hasWeightControl && totalOver < 0 ? 'ACHTUNG: Unterfüllung berechnet – Gewichte sofort prüfen.' : '';
   }
 }
 
