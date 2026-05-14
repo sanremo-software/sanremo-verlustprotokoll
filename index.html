@@ -25,9 +25,11 @@
     .row input,.row select{width:100%}
     .row span:first-child{white-space:nowrap}
     .section-sep{border-top:2px solid #777;margin:14px 0}
-    .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;font-size:13px}
-    .field{display:flex;align-items:center;gap:6px;min-height:25px;font-weight:700}
-    .field label{white-space:nowrap}
+    .product-grid{display:grid;grid-template-columns:160px 120px 32px 160px 120px 32px;gap:4px 6px;font-size:13px;align-items:center}
+    .field{display:contents;font-weight:700}
+    .field label{white-space:nowrap;text-align:right;padding-right:6px;font-weight:700}
+    .field b{font-weight:900;white-space:nowrap}
+    .unit{white-space:nowrap;text-align:left;font-weight:700}
     .field.full{grid-column:1 / -1}
     .formula{font-style:italic;font-size:11px;color:#333;margin:4px 0 0 0}
     .bold{font-weight:900}
@@ -45,7 +47,7 @@
     select.blank.long{min-width:210px;text-align:left;background:white;border:1px solid #aaa;border-radius:5px;height:26px;padding-left:8px}
     input[readonly]{background:#f3f4f6;border-radius:3px}
     .summary-box{border:2px solid #111;border-radius:8px;padding:8px;margin-top:10px;background:#fafafa}
-    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px}
+    .summary-grid{display:grid;grid-template-columns:180px 120px 32px 180px 120px 32px;gap:4px 6px;align-items:center}
     .warn{font-size:12px;font-weight:900;color:#991b1b;margin-top:7px;text-align:center}
     .checkline{font-size:14px;line-height:1.45;font-weight:700}.checkline input{width:16px;height:16px;margin-right:5px;vertical-align:middle}
     .stich{font-size:15px;font-weight:900;margin:14px 0 6px}.plainline{font-size:14px;font-weight:900;word-spacing:2px;margin-bottom:16px}
@@ -116,7 +118,7 @@
     </div>
 
     <div class="top-grid">
-      <div class="row"><span>Datum:</span><input id="datum" class="blank long" placeholder="TT.MM.JJJJ"></div>
+      <div class="row"><span>Datum:</span><input id="datum" type="date" class="blank long"></div>
       <div class="row"><span>Auftrags-/Lieferscheinnr.:</span><input id="lieferschein" class="blank long"></div>
       <div class="row"><span>Kunde / Filiale:</span><input id="kunde" list="kundenListe" class="blank long"></div>
       <div class="row"><span>Kunde auswählen:</span><select id="kundeSelect" class="blank long" onchange="selectClient()"></select></div>
@@ -127,67 +129,48 @@
 
     <h2><span class="icon">🍨</span> Produkt 1 – 170 g Becher</h2>
     <div class="product-grid">
-      <div class="field"><label>Nenngewicht:</label><b>170 g</b></div>
-      <div class="field"><label>Soll Gesamtgewicht:</label><b>185 g</b></div>
-      <div class="field"><label>Tara:</label><input id="p170_tara" class="blank tiny" value="10"> g</div>
-      <div class="field"><label>Ist-Gewicht:</label><input id="p170_ist" class="blank tiny"> g</div>
-      <div class="field"><label>Produziert:</label><input id="p170_prod" class="blank tiny"> Stück</div>
-      <div class="field"><label>Geliefert:</label><input id="p170_lief" class="blank tiny"> Stück</div>
-      <div class="field"><label>Preis/Stück:</label><input id="p170_preis" class="blank tiny"> €</div>
-      <div class="field"><label>Gesamtwert:</label><input id="p170_wert" class="blank tiny" readonly> €</div>
-      <div class="field"><label>Nennmenge:</label><input id="p170_nennkg" class="blank tiny" readonly> kg</div>
-      <div class="field"><label>Realmenge:</label><input id="p170_realkg" class="blank tiny" readonly> kg</div>
+      <div class="field"><label>Nenngewicht:</label><b>170 g</b><span class="unit"></span><label>Soll Gesamtgewicht:</label><b>185 g</b><span class="unit"></span></div>
+      <div class="field"><label>Tara:</label><input id="p170_tara" class="blank tiny" value="10"><span class="unit">g</span><label>Ist-Gewicht:</label><input id="p170_ist" class="blank tiny"><span class="unit">g</span></div>
+      <div class="field"><label>Produziert:</label><input id="p170_prod" class="blank tiny"><span class="unit">Stück</span><label>Geliefert:</label><input id="p170_lief" class="blank tiny"><span class="unit">Stück</span></div>
+      <div class="field"><label>Preis/Stück:</label><input id="p170_preis" class="blank tiny"><span class="unit">€</span><label>Gesamtwert:</label><input id="p170_wert" class="blank tiny" readonly><span class="unit">€</span></div>
+      <div class="field"><label>Nennmenge:</label><input id="p170_nennkg" class="blank tiny" readonly><span class="unit">kg</span><label>Realmenge:</label><input id="p170_realkg" class="blank tiny" readonly><span class="unit">kg</span></div>
     </div>
     <div class="formula">Nenngewicht: Stück × 0,170 kg / Real: ((Ist-Gewicht − Tara) × Stück)</div>
 
     <h2><span class="icon">🍨</span> Produkt 2 – 750 g Becher</h2>
     <div class="product-grid">
-      <div class="field"><label>Nenngewicht:</label><b>750 g</b></div>
-      <div class="field"><label>Soll Gesamtgewicht:</label><b>785 g</b></div>
-      <div class="field"><label>Tara:</label><input id="p750_tara" class="blank tiny" value="28"> g</div>
-      <div class="field"><label>Ist-Gewicht:</label><input id="p750_ist" class="blank tiny"> g</div>
-      <div class="field"><label>Produziert:</label><input id="p750_prod" class="blank tiny"> Stück</div>
-      <div class="field"><label>Geliefert:</label><input id="p750_lief" class="blank tiny"> Stück</div>
-      <div class="field"><label>Preis/Stück:</label><input id="p750_preis" class="blank tiny"> €</div>
-      <div class="field"><label>Gesamtwert:</label><input id="p750_wert" class="blank tiny" readonly> €</div>
-      <div class="field"><label>Nennmenge:</label><input id="p750_nennkg" class="blank tiny" readonly> kg</div>
-      <div class="field"><label>Realmenge:</label><input id="p750_realkg" class="blank tiny" readonly> kg</div>
+      <div class="field"><label>Nenngewicht:</label><b>750 g</b><span class="unit"></span><label>Soll Gesamtgewicht:</label><b>785 g</b><span class="unit"></span></div>
+      <div class="field"><label>Tara:</label><input id="p750_tara" class="blank tiny" value="28"><span class="unit">g</span><label>Ist-Gewicht:</label><input id="p750_ist" class="blank tiny"><span class="unit">g</span></div>
+      <div class="field"><label>Produziert:</label><input id="p750_prod" class="blank tiny"><span class="unit">Stück</span><label>Geliefert:</label><input id="p750_lief" class="blank tiny"><span class="unit">Stück</span></div>
+      <div class="field"><label>Preis/Stück:</label><input id="p750_preis" class="blank tiny"><span class="unit">€</span><label>Gesamtwert:</label><input id="p750_wert" class="blank tiny" readonly><span class="unit">€</span></div>
+      <div class="field"><label>Nennmenge:</label><input id="p750_nennkg" class="blank tiny" readonly><span class="unit">kg</span><label>Realmenge:</label><input id="p750_realkg" class="blank tiny" readonly><span class="unit">kg</span></div>
     </div>
     <div class="formula">Nenngewicht: Stück × 0,750 kg / Real: ((Ist-Gewicht − Tara) × Stück)</div>
 
     <h2><span class="icon">🎂</span> Produkt 3 – Eistorte 1.300 g</h2>
     <div class="product-grid">
-      <div class="field"><label>Nenngewicht:</label><b>1.300 g</b></div>
-      <div class="field"><label>Tara / Verpackung:</label><input id="t1300_tara" class="blank tiny" value="0"> g</div>
-      <div class="field"><label>Ist-Gewicht:</label><input id="t1300_ist" class="blank tiny"> g</div>
-      <div class="field"><label>Produziert:</label><input id="t1300_prod" class="blank tiny"> Stück</div>
-      <div class="field"><label>Geliefert:</label><input id="t1300_lief" class="blank tiny"> Stück</div>
-      <div class="field"><label>Preis/Stück:</label><input id="t1300_preis" class="blank tiny"> €</div>
-      <div class="field"><label>Gesamtwert:</label><input id="t1300_wert" class="blank tiny" readonly> €</div>
-      <div class="field"><label>Nennmenge:</label><input id="t1300_nennkg" class="blank tiny" readonly> kg</div>
-      <div class="field"><label>Realmenge:</label><input id="t1300_realkg" class="blank tiny" readonly> kg</div>
+      <div class="field"><label>Nenngewicht:</label><b>1.300 g</b><span class="unit"></span><label>Tara / Verpackung:</label><input id="t1300_tara" class="blank tiny" value="0"><span class="unit">g</span></div>
+      <div class="field"><label>Ist-Gewicht:</label><input id="t1300_ist" class="blank tiny"><span class="unit">g</span><label>Produziert:</label><input id="t1300_prod" class="blank tiny"><span class="unit">Stück</span></div>
+      <div class="field"><label>Geliefert:</label><input id="t1300_lief" class="blank tiny"><span class="unit">Stück</span><label>Preis/Stück:</label><input id="t1300_preis" class="blank tiny"><span class="unit">€</span></div>
+      <div class="field"><label>Gesamtwert:</label><input id="t1300_wert" class="blank tiny" readonly><span class="unit">€</span><label>Nennmenge:</label><input id="t1300_nennkg" class="blank tiny" readonly><span class="unit">kg</span></div>
+      <div class="field"><label>Realmenge:</label><input id="t1300_realkg" class="blank tiny" readonly><span class="unit">kg</span><label></label><span></span><span class="unit"></span></div>
     </div>
     <div class="formula">Nenngewicht: Stück × 1,300 kg / Real: ((Ist-Gewicht − Tara) × Stück)</div>
 
     <h2><span class="icon">🎂</span> Produkt 4 – Eistorte 2.000 g</h2>
     <div class="product-grid">
-      <div class="field"><label>Nenngewicht:</label><b>2.000 g</b></div>
-      <div class="field"><label>Tara / Verpackung:</label><input id="t2000_tara" class="blank tiny" value="0"> g</div>
-      <div class="field"><label>Ist-Gewicht:</label><input id="t2000_ist" class="blank tiny"> g</div>
-      <div class="field"><label>Produziert:</label><input id="t2000_prod" class="blank tiny"> Stück</div>
-      <div class="field"><label>Geliefert:</label><input id="t2000_lief" class="blank tiny"> Stück</div>
-      <div class="field"><label>Preis/Stück:</label><input id="t2000_preis" class="blank tiny"> €</div>
-      <div class="field"><label>Gesamtwert:</label><input id="t2000_wert" class="blank tiny" readonly> €</div>
-      <div class="field"><label>Nennmenge:</label><input id="t2000_nennkg" class="blank tiny" readonly> kg</div>
-      <div class="field"><label>Realmenge:</label><input id="t2000_realkg" class="blank tiny" readonly> kg</div>
+      <div class="field"><label>Nenngewicht:</label><b>2.000 g</b><span class="unit"></span><label>Tara / Verpackung:</label><input id="t2000_tara" class="blank tiny" value="0"><span class="unit">g</span></div>
+      <div class="field"><label>Ist-Gewicht:</label><input id="t2000_ist" class="blank tiny"><span class="unit">g</span><label>Produziert:</label><input id="t2000_prod" class="blank tiny"><span class="unit">Stück</span></div>
+      <div class="field"><label>Geliefert:</label><input id="t2000_lief" class="blank tiny"><span class="unit">Stück</span><label>Preis/Stück:</label><input id="t2000_preis" class="blank tiny"><span class="unit">€</span></div>
+      <div class="field"><label>Gesamtwert:</label><input id="t2000_wert" class="blank tiny" readonly><span class="unit">€</span><label>Nennmenge:</label><input id="t2000_nennkg" class="blank tiny" readonly><span class="unit">kg</span></div>
+      <div class="field"><label>Realmenge:</label><input id="t2000_realkg" class="blank tiny" readonly><span class="unit">kg</span><label></label><span></span><span class="unit"></span></div>
     </div>
     <div class="formula">Nenngewicht: Stück × 2,000 kg / Real: ((Ist-Gewicht − Tara) × Stück)</div>
 
     <div class="summary-box">
       <h2 style="margin-top:0"><span class="icon">🎁</span> Zusammenfassung / Abweichung</h2>
       <div class="summary-grid">
-        <div class="field"><label>Überfüllung gesamt:</label><input id="over_total" class="blank short" readonly> kg</div>
-        <div class="field"><label>Gesamtwert Lieferung:</label><input id="wert_total" class="blank short" readonly> €</div>
+        <div class="field"><label>Überfüllung gesamt:</label><input id="over_total" class="blank short" readonly><span class="unit">kg</span><label>Gesamtwert Lieferung:</label><input id="wert_total" class="blank short" readonly><span class="unit">€</span></div>
       </div>
       <div id="warnText" class="warn"></div>
       <div class="reason"><span class="bold">Grund:</span> Technisch bedingter Sicherheitszuschlag zur Einhaltung der gesetzlichen Mindestfüllmenge. Die Abfüllung erfolgt oberhalb des Nenngewichts zur Vermeidung von Unterfüllung.</div>
@@ -318,11 +301,7 @@ function calc(){
 
 function germanDate(){
   const d=new Date();
-  const day=String(d.getDate()).padStart(2,'0');
-  const month=String(d.getMonth()+1).padStart(2,'0');
-  const year=d.getFullYear();
-  return `${day}.${month}.${year}`;
-}
+  const day=Str
 function setToday(){
   const today=germanDate();
   set('datum',today);
