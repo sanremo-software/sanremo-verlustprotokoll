@@ -51,7 +51,10 @@
     .warn{font-size:12px;font-weight:900;color:#991b1b;margin-top:7px;text-align:center}
     .checkline{font-size:14px;line-height:1.45;font-weight:700}.checkline input{width:16px;height:16px;margin-right:5px;vertical-align:middle}
     .stich{font-size:15px;font-weight:900;margin:14px 0 6px}.plainline{font-size:14px;font-weight:900;word-spacing:2px;margin-bottom:16px}
-    .loss-grid{font-size:14px;font-weight:900;line-height:1.45}.loss-grid .row{font-size:14px;margin:5px 0}.checks{font-size:15px;line-height:1.4;margin-top:10px}.checks label{display:block;margin:5px 0}.checks input[type="checkbox"]{width:17px;height:17px;margin-right:6px;vertical-align:middle}
+    .loss-grid{display:grid;grid-template-columns:220px 120px 40px;gap:6px 8px;align-items:center;font-size:14px;font-weight:900;line-height:1.45}
+    .loss-grid .row{display:contents;font-size:14px;margin:0}
+    .loss-grid .row span:first-child{text-align:right;padding-right:8px;white-space:nowrap}
+    .loss-unit{font-weight:700;white-space:nowrap}.checks{font-size:15px;line-height:1.4;margin-top:10px}.checks label{display:block;margin:5px 0}.checks input[type="checkbox"]{width:17px;height:17px;margin-right:6px;vertical-align:middle}
     .subhead{font-size:15px;font-weight:900;margin-top:12px}.liefer{font-size:14px;font-weight:700;margin-top:14px}
     .mini-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
     .mini-actions button{font-size:12px;padding:7px 9px;border-radius:7px;background:#374151}
@@ -191,14 +194,14 @@
     <div class="loss-grid">
       <div class="row"><span>Datum:</span><input id="verlust_datum" class="blank long" placeholder="TT.MM.JJJJ"></div>
       <div class="row"><span>Produkt:</span><input id="verlust_produkt" class="blank long" placeholder="z. B. 170 g Becher / 750 g Becher / Eistorte 1.300 g / Eistorte 2.000 g"></div>
-      <div class="row"><span>Menge Verlust:</span><input id="verlust_stueck" class="blank short"> Stück</div>
-      <div class="row"><span>Gewicht Verlust:</span><input id="verlust_kg" class="blank short"> kg</div>
-      <div class="row"><span>Wert Verlust:</span><input id="verlust_wert" class="blank short"> €</div>
+      <div class="row"><span>Menge Verlust:</span><input id="verlust_stueck" class="blank short"><span class="loss-unit">Stück</span></div>
+      <div class="row"><span>Gewicht Verlust:</span><input id="verlust_kg" class="blank short"><span class="loss-unit">kg</span></div>
+      <div class="row"><span>Wert Verlust:</span><input id="verlust_wert" class="blank short"><span class="loss-unit">€</span></div>
 
       <div class="subhead">Bezug zur Produktion:</div>
-      <div class="row"><span>Gesamtproduktion:</span><input id="gesamtproduktion" class="blank short" readonly> Stück</div>
-      <div class="row"><span>Gesamtmenge real:</span><input id="gesamt_real_kg" class="blank short" readonly> kg</div>
-      <div class="row"><span>Verlustanteil:</span><input id="verlust_prozent" class="blank short" readonly> %</div>
+      <div class="row"><span>Gesamtproduktion:</span><input id="gesamtproduktion" class="blank short" readonly><span class="loss-unit">Stück</span></div>
+      <div class="row"><span>Gesamtmenge real:</span><input id="gesamt_real_kg" class="blank short" readonly><span class="loss-unit">kg</span></div>
+      <div class="row"><span>Verlustanteil:</span><input id="verlust_prozent" class="blank short" readonly><span class="loss-unit">%</span></div>
     </div>
 
     <div class="subhead">Art des Verlustes:</div>
@@ -301,7 +304,11 @@ function calc(){
 
 function germanDate(){
   const d=new Date();
-  const day=Str
+  const day=String(d.getDate()).padStart(2,'0');
+  const month=String(d.getMonth()+1).padStart(2,'0');
+  const year=d.getFullYear();
+  return `${year}-${month}-${day}`;
+}
 function setToday(){
   const today=germanDate();
   set('datum',today);
