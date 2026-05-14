@@ -51,10 +51,12 @@
     .warn{font-size:12px;font-weight:900;color:#991b1b;margin-top:7px;text-align:center}
     .checkline{font-size:14px;line-height:1.45;font-weight:700}.checkline input{width:16px;height:16px;margin-right:5px;vertical-align:middle}
     .stich{font-size:15px;font-weight:900;margin:14px 0 6px}.plainline{font-size:14px;font-weight:900;word-spacing:2px;margin-bottom:16px}
-    .loss-grid{display:grid;grid-template-columns:220px 120px 40px;gap:6px 8px;align-items:center;font-size:14px;font-weight:900;line-height:1.45}
-    .loss-grid .row{display:contents;font-size:14px;margin:0}
-    .loss-grid .row span:first-child{text-align:right;padding-right:8px;white-space:nowrap}
-    .loss-unit{font-weight:700;white-space:nowrap}.checks{font-size:15px;line-height:1.4;margin-top:10px}.checks label{display:block;margin:5px 0}.checks input[type="checkbox"]{width:17px;height:17px;margin-right:6px;vertical-align:middle}
+    .loss-grid{display:grid;grid-template-columns:190px 1fr 55px;gap:7px 8px;align-items:center;font-size:14px;font-weight:900;margin-top:8px;max-width:640px}
+    .loss-label{text-align:right;padding-right:8px;white-space:nowrap;font-weight:900}
+    .loss-field{display:flex;align-items:center;width:100%}
+    .loss-field input{width:100%}
+    .loss-unit{font-weight:700;white-space:nowrap;text-align:left}
+    .loss-title{grid-column:1 / -1;font-size:15px;font-weight:900;margin-top:8px;border-top:1px solid #999;padding-top:7px}.checks{font-size:15px;line-height:1.4;margin-top:10px}.checks label{display:block;margin:5px 0}.checks input[type="checkbox"]{width:17px;height:17px;margin-right:6px;vertical-align:middle}
     .subhead{font-size:15px;font-weight:900;margin-top:12px}.liefer{font-size:14px;font-weight:700;margin-top:14px}
     .mini-actions{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
     .mini-actions button{font-size:12px;padding:7px 9px;border-radius:7px;background:#374151}
@@ -192,16 +194,39 @@
     <h2 style="margin-top:0">Ausschuss / Verluste Produktion</h2>
 
     <div class="loss-grid">
-      <div class="row"><span>Datum:</span><input id="verlust_datum" class="blank long" placeholder="TT.MM.JJJJ"></div>
-      <div class="row"><span>Produkt:</span><input id="verlust_produkt" class="blank long" placeholder="z. B. 170 g Becher / 750 g Becher / Eistorte 1.300 g / Eistorte 2.000 g"></div>
-      <div class="row"><span>Menge Verlust:</span><input id="verlust_stueck" class="blank short"><span class="loss-unit">Stück</span></div>
-      <div class="row"><span>Gewicht Verlust:</span><input id="verlust_kg" class="blank short"><span class="loss-unit">kg</span></div>
-      <div class="row"><span>Wert Verlust:</span><input id="verlust_wert" class="blank short"><span class="loss-unit">€</span></div>
+      <div class="loss-label">Datum:</div>
+      <div class="loss-field"><input id="verlust_datum" type="date" class="blank full"></div>
+      <div class="loss-unit"></div>
 
-      <div class="subhead">Bezug zur Produktion:</div>
-      <div class="row"><span>Gesamtproduktion:</span><input id="gesamtproduktion" class="blank short" readonly><span class="loss-unit">Stück</span></div>
-      <div class="row"><span>Gesamtmenge real:</span><input id="gesamt_real_kg" class="blank short" readonly><span class="loss-unit">kg</span></div>
-      <div class="row"><span>Verlustanteil:</span><input id="verlust_prozent" class="blank short" readonly><span class="loss-unit">%</span></div>
+      <div class="loss-label">Produkt:</div>
+      <div class="loss-field"><input id="verlust_produkt" class="blank full" placeholder="z. B. 170 g Becher / 750 g Becher / Eistorte 1.300 g / Eistorte 2.000 g"></div>
+      <div class="loss-unit"></div>
+
+      <div class="loss-label">Menge Verlust:</div>
+      <div class="loss-field"><input id="verlust_stueck" class="blank short"></div>
+      <div class="loss-unit">Stück</div>
+
+      <div class="loss-label">Gewicht Verlust:</div>
+      <div class="loss-field"><input id="verlust_kg" class="blank short"></div>
+      <div class="loss-unit">kg</div>
+
+      <div class="loss-label">Wert Verlust:</div>
+      <div class="loss-field"><input id="verlust_wert" class="blank short"></div>
+      <div class="loss-unit">€</div>
+
+      <div class="loss-title">Bezug zur Produktion:</div>
+
+      <div class="loss-label">Gesamtproduktion:</div>
+      <div class="loss-field"><input id="gesamtproduktion" class="blank short" readonly></div>
+      <div class="loss-unit">Stück</div>
+
+      <div class="loss-label">Gesamtmenge real:</div>
+      <div class="loss-field"><input id="gesamt_real_kg" class="blank short" readonly></div>
+      <div class="loss-unit">kg</div>
+
+      <div class="loss-label">Verlustanteil:</div>
+      <div class="loss-field"><input id="verlust_prozent" class="blank short" readonly></div>
+      <div class="loss-unit">%</div>
     </div>
 
     <div class="subhead">Art des Verlustes:</div>
